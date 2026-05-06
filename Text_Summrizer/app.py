@@ -11,15 +11,11 @@ logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
 
-# Get model path
-model_path = os.path.join(os.path.dirname(__file__), "save_model")
-logger.info(f"Loading model from: {model_path}")
-logger.info(f"Model path exists: {os.path.exists(model_path)}")
-
 try:
-    model = T5ForConditionalGeneration.from_pretrained(model_path)
-    # Use standard google/flan-t5-base tokenizer since tokenizer files are not in save_model
-    tokenizer = T5Tokenizer.from_pretrained("google/flan-t5-base")
+    model_name = "google/flan-t5-base"
+    logger.info(f"Loading model from HuggingFace: {model_name}")
+    model = T5ForConditionalGeneration.from_pretrained(model_name)
+    tokenizer = T5Tokenizer.from_pretrained(model_name)
     logger.info("Model and tokenizer loaded successfully")
 except Exception as e:
     logger.error(f"Error loading model: {e}")
